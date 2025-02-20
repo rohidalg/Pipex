@@ -1,17 +1,18 @@
 NAME = pipex
 
+MKL = make -s -C libft
 MK = make -s
 MKD = mkdir -p
 RM = rm -rf
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror  #-fsanitize=address -g3
 
-HEADERS = pipex.h \
-
+HEADERS =  libft/libft.h \
+			pipex.h \
 
 INCLUDES = -I libft
 
-SRCs = \
+SRCs = pipex.c \
 
 
 DIR_OBJs = OBJECTS

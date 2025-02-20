@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/02/20 18:40:03 by rohidalg         ###   ########.fr       */
+/*   Created: 2023/10/18 17:52:38 by rohidalg          #+#    #+#             */
+/*   Updated: 2024/06/19 12:51:38 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "libft/libft.h"
-
-//------------------------pipex.c------------------------//
-
-char	*ft_getenv(char *name, char **env);
-char	*ft_getpath(char *command, char **env);
-
-
-#endif
+void	ft_lstiter(t_list *lst, void (*f)(int))
+{
+	while (lst)
+	{
+		f(lst->nmb);
+		lst = lst->next;
+	}
+}

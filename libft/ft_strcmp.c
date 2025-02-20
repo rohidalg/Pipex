@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/02/20 18:40:03 by rohidalg         ###   ########.fr       */
+/*   Created: 2025/02/20 15:36:59 by rohidalg          #+#    #+#             */
+/*   Updated: 2025/02/20 15:37:22 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "libft/libft.h"
+int	ft_strcmp(char *s1, char *s2)
+{
+	size_t	i;
 
-//------------------------pipex.c------------------------//
-
-char	*ft_getenv(char *name, char **env);
-char	*ft_getpath(char *command, char **env);
-
-
-#endif
+	i = 0;
+	if (!s1)
+		return (1);
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	return (0);
+}
