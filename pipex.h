@@ -19,6 +19,8 @@
 
 char	*ft_getenv(char *name, char **env);
 char	*ft_getpath(char *command, char **env);
+void ft_check_argv(int argc);
+void ft_exit(char *str);
 
 
 #endif

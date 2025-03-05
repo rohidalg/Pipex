@@ -12,11 +12,11 @@
 
 #include "pipex.h"
 
-char	*ft_getenv(char *name, char **env)
+char *ft_getenv(char *name, char **env)
 {
-	int		i;
-	int		j;
-	char	*sub;
+	int i;
+	int j;
+	char *sub;
 
 	i = 0;
 	while (env[i])
@@ -37,20 +37,20 @@ char	*ft_getenv(char *name, char **env)
 }
 // busca la variable del entorno que deseemmos y nos devuelve su valor
 
-char	*ft_getpath(char *command, char **env)
+char *ft_getpath(char *command, char **env)
 {
-	int		i;
-	char	**path;
-	char	*tmp;
-	char	*path_part;
-	char	**cmmd;
+	int i;
+	char **path;
+	char *tmp;
+	char *path_part;
+	char **cmmd;
 
 	i = -1;
 	path = ft_split(ft_getenv("PATH", env), ':');
 	cmmd = ft_split(command, ' ');
 	while (path[i++])
 	{
-		tmp = ft_strjoin(path[i], "/");       // "/usr/bin/"
+		tmp = ft_strjoin(path[i], "/");		  // "/usr/bin/"
 		path_part = ft_strjoin(tmp, cmmd[0]); // "/usr/bin/ls"
 		free(tmp);
 		if (access(path_part, F_OK | X_OK) == 0) // existe? | ejecutable?
@@ -65,11 +65,28 @@ char	*ft_getpath(char *command, char **env)
 	return (command);
 }
 
-int	main(int argc, char **argv, char **env)
+void ft_exit(char *str)
+{
+	ft_putstr_fd(str, 2);
+	exit(EXIT_FAILURE);
+}
+
+void ft_check_argv(int argc)//, char **argv)
+{
+	if (argc != 5)
+		ft_exit("More or less than 5 arguments\n");
+}
+
+
+
+
+
+int main(int argc, char **argv, char **env)
 {
 	if (argc >= 2)
 	{
 		char *command_path = ft_getpath(argv[1], env);
+		//ft_check_argv(argc);
 		printf("Ruta de %s: %s\n", argv[1], command_path);
 	}
 
