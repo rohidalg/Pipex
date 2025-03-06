@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:36:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/03/05 18:41:56 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/03/06 14:08:12 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_getpath(char *command, char **env)
 	while (path[i++])
 	{
 		tmp = ft_strjoin(path[i], "/");       // "/usr/bin/"
-		path_part = ft_strjoin(tmp, cmmd[0]); // "/usr/bin/ls"
+		path_part = ft_strjoin(tmp, cmmd); // "/usr/bin/ls"
 		free(tmp);
 		if (access(path_part, F_OK | X_OK) == 0) // existe? | ejecutable?
 		{
@@ -77,7 +77,7 @@ void	ft_check_argv(int argc) //, char **argv)
 		ft_exit("More or less than 5 arguments\n");
 }
 
-void	ft_exec(char *command, char *env)
+void	ft_exec(char *command, char **env)
 {
 	char	**cmmd_part;
 
@@ -96,22 +96,41 @@ int	ft_file(char *file, int option)
 {
 	int	tmp;
 
+	tmp = 0;
 	if (option == 0)
 		tmp = open(file, O_RDONLY, 0777);
 	if (option == 1)
 		tmp = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (tmp == -1)
-		exit(0);
+		exit(EXIT_FAILURE);
 	return (tmp);
 }
+
+void ft_son(char **argv)//, char **env)
+{
+	int fd;
+	
+	fd = ft_open(argv[1], 0);
+	close(fd);
+}
+
+// void ft_father(char *argv)//, char **env)
+// {
+// 	int fd;
+	
+// 	fd = ft_open(argv[4], 1);
+// 	close(fd);
+// }
 
 int	main(int argc, char **argv, char **env)
 {
 	if (argc >= 2)
 	{
-		char *command_path = ft_getpath(argv[1], env);
+		ft_son(argv[1]);
+		// char *command_path = ft_getpath(argv[1], env);
 		// ft_check_argv(argc);
-		printf("Ruta de %s: %s\n", argv[1], command_path);
+		// printf("Ruta de %s: %s\n", argv[1], command_path);
+		printf("%s\n", ft_son);
 	}
 	return (0);
 }
