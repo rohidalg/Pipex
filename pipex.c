@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:36:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/03/06 14:08:12 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:43:37 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,33 +106,38 @@ int ft_file(char *file, int option)
 	return (tmp);
 }
 
-void ft_son(char **argv, char **env)
+void ft_son(char **argv, char **env,  int fd_p)
 {
 	int fd;
 
 	fd = ft_file(argv[1], 0);
-	dup2(fd , 0); //redirige la salida al archivo
+	dup2(fd , 0); //redirige stdin al archivo
+	dup2(fd_p[1], 1); //redirige stdout al pipe de escritura
 	ft_exec(argv[2], env);
 	close(fd);
 }
 
-void ft_father(char **argv, char **env)
+void ft_father(char **argv, char **env, int fd_p)
 {
 	int fd;
 
 	fd = ft_file(argv[4], 1);
-	dup2(fd , 0); //redirige la salida al archivo
-	ft_exec(argv[3], env);
+	dup2(fd , 0); //redirige stdout al archivo
+	dup2(fd_p, ); // redirige stdin a la lectura del pipe
 	close(fd);
 }
 
 int main(int argc, char **argv, char **env)
 {
-	if (argc >= 2)
-	{
-		// ft_check_argv(argc);
-		ft_son(argv, env);
-		ft_father(argv, env);
-	}
+	int fd_p[2];
+	pid_t pid;
+	
+	ft_check_argv(argc);
+	pid = fork();
+	if(pid == -1)
+		exit(-1);
+	if(pid == 0)
+		ft_son(argv, env, fd_p);
+	ft_father(argv, env, fd_p);
 	return (0);
 }
