@@ -12,11 +12,11 @@
 
 #include "pipex.h"
 
-char	*ft_getenv(char *name, char **env)
+char *ft_getenv(char *name, char **env)
 {
-	int		i;
-	int		j;
-	char	*sub;
+	int i;
+	int j;
+	char *sub;
 
 	i = 0;
 	while (env[i])
@@ -37,21 +37,21 @@ char	*ft_getenv(char *name, char **env)
 }
 // busca la variable del entorno que deseemmos y nos devuelve su valor
 
-char	*ft_getpath(char *command, char **env)
+char *ft_getpath(char *command, char **env)
 {
-	int		i;
-	char	**path;
-	char	*tmp;
-	char	*path_part;
-	char	**cmmd;
+	int i;
+	char **path;
+	char *tmp;
+	char *path_part;
+	char **cmmd;
 
 	i = -1;
 	path = ft_split(ft_getenv("PATH", env), ':');
 	cmmd = ft_split(command, ' ');
 	while (path[i++])
 	{
-		tmp = ft_strjoin(path[i], "/");       // "/usr/bin/"
-		path_part = ft_strjoin(tmp, cmmd); // "/usr/bin/ls"
+		tmp = ft_strjoin(path[i], "/");	   // "/usr/bin/"
+		path_part = ft_strjoin(tmp, cmmd[0]); // "/usr/bin/ls"
 		free(tmp);
 		if (access(path_part, F_OK | X_OK) == 0) // existe? | ejecutable?
 		{
@@ -65,21 +65,21 @@ char	*ft_getpath(char *command, char **env)
 	return (command);
 }
 
-void	ft_exit(char *str)
+void ft_exit(char *str)
 {
 	ft_putstr_fd(str, 2);
 	exit(EXIT_FAILURE);
 }
 
-void	ft_check_argv(int argc) //, char **argv)
+void ft_check_argv(int argc) //, char **argv)
 {
 	if (argc != 5)
 		ft_exit("More or less than 5 arguments\n");
 }
 
-void	ft_exec(char *command, char **env)
+void ft_exec(char *command, char **env)
 {
-	char	**cmmd_part;
+	char **cmmd_part;
 
 	cmmd_part = ft_split(command, ' ');
 	if (execve(ft_getpath(cmmd_part[0], env), cmmd_part, env) == -1)
@@ -92,9 +92,9 @@ void	ft_exec(char *command, char **env)
 }
 // exec reemplaza la funcion para ejecutar el comando si llega a encontrarlo
 
-int	ft_file(char *file, int option)
+int ft_file(char *file, int option)
 {
-	int	tmp;
+	int tmp;
 
 	tmp = 0;
 	if (option == 0)
@@ -106,31 +106,33 @@ int	ft_file(char *file, int option)
 	return (tmp);
 }
 
-void ft_son(char **argv)//, char **env)
+void ft_son(char **argv, char **env)
 {
 	int fd;
-	
-	fd = ft_open(argv[1], 0);
+
+	fd = ft_file(argv[1], 0);
+	dup2(fd , 0); //redirige la salida al archivo
+	ft_exec(argv[2], env);
 	close(fd);
 }
 
-// void ft_father(char *argv)//, char **env)
-// {
-// 	int fd;
-	
-// 	fd = ft_open(argv[4], 1);
-// 	close(fd);
-// }
+void ft_father(char **argv, char **env)
+{
+	int fd;
 
-int	main(int argc, char **argv, char **env)
+	fd = ft_file(argv[4], 1);
+	dup2(fd , 0); //redirige la salida al archivo
+	ft_exec(argv[3], env);
+	close(fd);
+}
+
+int main(int argc, char **argv, char **env)
 {
 	if (argc >= 2)
 	{
-		ft_son(argv[1]);
-		// char *command_path = ft_getpath(argv[1], env);
 		// ft_check_argv(argc);
-		// printf("Ruta de %s: %s\n", argv[1], command_path);
-		printf("%s\n", ft_son);
+		ft_son(argv, env);
+		ft_father(argv, env);
 	}
 	return (0);
 }
