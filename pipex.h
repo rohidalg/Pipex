@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <fcntl.h>
+#include <sys/wait.h>
 
 //------------------------pipex.c------------------------//
 

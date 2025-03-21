@@ -74,17 +74,17 @@ void	ft_exit(char *str)
 void	ft_check_argv(int argc, char **argv)
 {
 	if (argc != 5)
-		ft_exit("More or less than 5 arguments\n");
+		ft_exit("more or less than 5 arguments\n");
 	if (access(argv[1], F_OK) == -1)
-		ft_exit("No such file or directory\n");
-	if (access(argv[4], F_OK) == -1)
-		ft_exit("No such file or directory\n");
-	if (!argv[2][0] && !argv[3][0])
-        ft_exit("Permission denied\n");
-    if (!argv[3][0])
-        ft_exit("Permission denied\n");
-    if (!argv[2][0])
-        ft_exit("Permission denied\n");
+		ft_exit("no such file or directory\n");
+	// if (access(argv[4], F_OK) == -1)
+	// 	ft_exit("No such file or directory\n");
+	// if (!argv[2][0] && !argv[3][0])
+    //     ft_exit("Command not found\n");
+    // if (!argv[3][0])
+    //     ft_exit("Command not found\n");
+    // if (!argv[2][0])
+    //     ft_exit("Command not found\n");
 }
 
 void	ft_exec(char *command, char **env)
@@ -97,7 +97,7 @@ void	ft_exec(char *command, char **env)
 		ft_putstr_fd("command not found: ", 2);
 		ft_putendl_fd(cmmd_part[0], 2);
 		ft_free(cmmd_part);
-		exit(0);
+		perror(""); //para que termine el hijo si falla
 	}
 }
 // exec reemplaza la funcion para ejecutar el comando si llega a encontrarlo
@@ -121,10 +121,12 @@ void	ft_son(char **argv, char **env, int *fd_p)
 	int	fd;
 
 	fd = ft_file(argv[1], 0);
+	// printf("soy el hijo\n");
 	dup2(fd, 0);      // redirige stdin al archivo
 	dup2(fd_p[1], 1); // redirige stdout al pipe de escritura
 	close(fd);
 	ft_exec(argv[2], env);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_father(char **argv, char **env, int *fd_p)
@@ -132,16 +134,21 @@ void	ft_father(char **argv, char **env, int *fd_p)
 	int	fd;
 
 	fd = ft_file(argv[4], 1);
-	dup2(fd, 0);      // redirige stdout al archivo
+	// printf("soy el padre\n");
+	dup2(fd, 1);      // redirige stdout al archivo
 	dup2(fd_p[0], 0); // redirige stdin a la lectura del pipe
 	close(fd);
+	close(fd_p[0]);
 	ft_exec(argv[3], env);
+	exit(EXIT_FAILURE);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	int fd_p[2];
 	pid_t pid;
+	// pid_t pid2;
+	// int status;
 
 	ft_check_argv(argc, argv);
 	if (pipe(fd_p) == -1)
@@ -151,6 +158,12 @@ int	main(int argc, char **argv, char **env)
 		exit(-1);
 	if (pid == 0)
 		ft_son(argv, env, fd_p);
+	// waitpid(pid1, &status, 0);
+	// if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	// {
+	// 	// Si el hijo falló, el padre no ejecuta nada
+	// 	exit(WEXITSTATUS(status));
+	// }
 	ft_father(argv, env, fd_p);
 	return (0);
 }
