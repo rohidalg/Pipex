@@ -13,6 +13,7 @@ HEADERS =  libft/libft.h \
 INCLUDES = -I libft
 
 SRCs = pipex.c \
+		ft_utils.c
 
 
 DIR_OBJs = OBJECTS
