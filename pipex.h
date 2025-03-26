@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/03/26 00:34:58 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/03/26 09:22:50 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft/libft.h"
 # include <fcntl.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 
 //------------------------pipex.c------------------------//
 
