@@ -31,7 +31,9 @@ $(DIR_OBJs)/%.o: %.c | $(DIR_OBJs)
 $(DIR_OBJs):
 	$(MKD) $(DIR_OBJs)
 
-dir_lib: 
+dir_lib: libft/libft.a
+
+libft/libft.a:
 	$(MKL)
 
 clean:

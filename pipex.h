@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:50 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:45:33 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_father(char **argv, char **env, int *fd_p);
 
 //------------------------ft_utils.c------------------------//
 
-void	ft_exit(char *str);
+void	ft_exit(char *str, int ex);
 void	ft_check_argv(int argc, char **argv);
 int		ft_file(char *file, int option);
 void	ft_exec(char *command, char **env);

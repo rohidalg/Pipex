@@ -6,24 +6,28 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:29:46 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/03/26 09:25:53 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:47:21 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_exit(char *str)
+void	ft_exit(char *str, int ex)
 {
 	ft_putstr_fd(str, 2);
-	exit(0);
+	exit(ex);
 }
 
 void	ft_check_argv(int argc, char **argv)
 {
 	if (argc != 5)
-		ft_exit("more or less than 5 arguments\n");
+		ft_exit("more or less than 5 arguments\n", 0);
+	if (!argv[2][0] && !argv[3][0])
+		ft_exit("permission denied\n", 126);
 	if (!argv[3][0])
-		exit(127);
+		ft_exit("permission denied\n", 127);
+	if (!argv[2][0])
+		ft_exit("permission denied\n", 0);
 }
 
 int	ft_file(char *file, int option)
