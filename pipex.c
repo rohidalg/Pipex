@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:36:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/03/26 19:39:59 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:29:19 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,14 @@ char	*ft_getpath(char *command, char **env)
 void	ft_son(char **argv, char **env, int *fd_p)
 {
 	int	fd;
+	// int fd_out;
 
 	fd = ft_file(argv[1], 0);
+	// fd_out = ft_file(argv[4], 1);
 	dup2(fd, 0);
 	dup2(fd_p[1], 1);
 	close(fd_p[0]);
+	// close(fd_out);
 	ft_exec(argv[2], env);
 }
 

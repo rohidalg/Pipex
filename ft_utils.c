@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:29:46 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/03/26 19:47:21 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:29:49 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	ft_check_argv(int argc, char **argv)
 {
 	if (argc != 5)
 		ft_exit("more or less than 5 arguments\n", 0);
+	// if (open(argv[1], O_RDONLY) == -1)
+	// 	ft_exit("no such file or directory\n", 0);
 	if (!argv[2][0] && !argv[3][0])
 		ft_exit("permission denied\n", 126);
 	if (!argv[3][0])
