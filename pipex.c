@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:36:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/03/27 13:29:19 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:27:59 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,68 +15,56 @@
 char	*ft_getenv(char *name, char **env)
 {
 	int		i;
-	int		j;
-	char	*sub;
+	int		len;
+	char	*result;
 
+	if (!env || !name)
+		return (NULL);
+	len = ft_strlen(name);
 	i = 0;
-	if (!*env)
-		exit(EXIT_FAILURE);
 	while (env[i])
 	{
-		j = 0;
-		while (env[i][j] && env[i][j] != '=')
-			j++;
-		sub = ft_substr(env[i], 0, j);
-		if (ft_strcmp(sub, name) == 0)
+		if (!ft_strncmp(env[i], name, len) && env[i][len] == '=')
 		{
-			free(sub);
-			return (env[i] + j + 1);
+			result = env[i] + len + 1;
+			return (result);
 		}
-		free(sub);
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
 
 char	*ft_getpath(char *command, char **env)
 {
-	int		i;
 	char	**path;
-	char	*tmp;
-	char	*path_part;
 	char	**cmmd;
+	char	*result;
 
-	i = -1;
-	path = ft_split(ft_getenv("PATH", env), ':');
+	if (!command)
+		return (NULL);
 	cmmd = ft_split(command, ' ');
-	while (path[i++])
+	if (!cmmd)
+		return (NULL);
+	path = ft_split(ft_getenv("PATH", env), ':');
+	if (!path)
 	{
-		tmp = ft_strjoin(path[i], "/");
-		path_part = ft_strjoin(tmp, cmmd[0]);
-		free(tmp);
-		if (access(path_part, F_OK | X_OK) == 0)
-		{
-			ft_free(cmmd);
-			return (path_part);
-		}
-		free(path_part);
+		ft_free(cmmd);
+		return (NULL);
 	}
-	ft_free(path);
+	result = ft_check_path(path, cmmd[0]);
 	ft_free(cmmd);
-	return (command);
+	ft_free(path);
+	return (result);
 }
 
 void	ft_son(char **argv, char **env, int *fd_p)
 {
 	int	fd;
-	// int fd_out;
 
 	fd = ft_file(argv[1], 0);
-	// fd_out = ft_file(argv[4], 1);
 	dup2(fd, 0);
 	dup2(fd_p[1], 1);
 	close(fd_p[0]);
-	// close(fd_out);
 	ft_exec(argv[2], env);
 }
 
