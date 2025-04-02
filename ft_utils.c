@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:29:46 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/04/01 13:22:00 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:31:46 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,16 @@ void	ft_check_argv(int argc, char **argv)
 {
 	if (argc != 5)
 		ft_exit("more or less than 5 arguments\n", 0);
-	ft_file(argv[4], 1);
-	if (open(argv[1], O_RDONLY) == -1)
-		ft_exit("no such file or directory\n", 0);
+	if (access(argv[1], O_RDONLY) == -1 && access(argv[4], W_OK) == -1)
+		ft_exit("no such file or directory\npermission denied\n", 1);
+	if (access(argv[1], O_RDONLY) == -1)
+		ft_putstr_fd("no such file or directory\n", 2);
+	if (access(argv[4], W_OK) == -1)
+		ft_putstr_fd("permission denied\n", 2);
 	if (!argv[2][0] && !argv[3][0])
-		ft_exit("permission denied\n", 126);
+		ft_exit("permission denied\npermission denied\n", 126);
 	if (!argv[3][0])
-		ft_exit("permission denied\n", 127);
+		ft_exit("permission denied\n", 126);
 	if (!argv[2][0])
 		ft_exit("permission denied\n", 0);
 }
