@@ -1,0 +1,55 @@
+./pipex "infiles/basic.txt" "cat -e" "cat -e" "outfiles/outfile"
+<infiles/basic.txt cat -e | cat -e >outfiles/outfile
+
+./pipex "infiles/basic.txt" "ls -la" "cat -e" "outfiles/outfile"
+<infiles/basic.txt ls -la | cat -e >outfiles/outfile
+
+./pipex "infiles/basic.txt" "ls -l -a" "cat -e -n" "outfiles/outfile"
+<infiles/basic.txt ls -l -a | cat -e -n >outfiles/outfile
+
+./pipex "infiles/basic.txt" "ls -l -a -f" "cat -e -n" "outfiles/outfile"
+<infiles/basic.txt ls -l -a -f | cat -e -n >outfiles/outfile
+
+./pipex "infiles/basic.txt" "ls -laf" "cat -e -n" "outfiles/outfile"
+<infiles/basic.txt ls -laf | cat -e -n >outfiles/outfile
+
+./pipex "infiles/basic.txt" "grep -A5 is" "cat -e" "outfiles/nonexistingfile"
+<infiles/basic.txt grep -A5 is | cat -e >outfiles/nonexistingfile
+
+./pipex "infiles/basic.txt" "cat -e" "grep nonexistingword" "outfiles/nonexistingfile"
+<infiles/basic.txt cat -e | grep nonexistingword >outfiles/nonexistingfile
+
+./pipex "infiles/empty.txt" "grep nonexistingword" "cat -e" "outfiles/outfile"
+<infiles/empty.txt grep nonexistingword | cat -e >outfiles/outfile
+
+./pipex "infiles/basic.txt" "sleep 3" "ls" "outfiles/outfile"
+<infiles/basic.txt sleep 3 | ls >outfiles/outfile
+
+./pipex "nonexistingfile" "cat -e" "ls" "outfiles/outfile"
+<nonexistingfile cat -e | ls >outfiles/outfile
+
+./pipex "nonexistingfile" "cat" "sleep 3" "outfiles/outfile"
+<nonexistingfile cat | sleep 3 >outfiles/outfile
+
+./pipex "infiles/infile_without_permissions" "cat -e" "cat -e" "outfiles/outfile"
+<infiles/infile_without_permissions cat -e | cat -e >outfiles/outfile
+
+./pipex "infiles/basic.txt" "cat -e" "cat -e" "outfiles/outfile_without_permissions"
+<infiles/basic.txt cat -e | cat -e >outfiles/outfile_without_permissions
+
+./pipex "infiles/basic.txt" "sleep 3" "cat -e" "outfiles/outfile_without_permissions"
+<infiles/basic.txt sleep 3 | cat -e >outfiles/outfile_without_permissions
+
+./pipex "nonexistingfile" "cat -e" "cat -e" "outfiles/outfile_without_permissions"
+<nonexistingfile cat -e | cat -e >outfiles/outfile_without_permissions
+
+./pipex "infiles/basic.txt" "nonexistingcommand" "cat -e" "outfiles/outfile"
+<infiles/basic.txt nonexistingcommand | cat -e >outfiles/outfile
+
+./pipex "infiles/basic.txt" "cat -e" "nonexistingcommand" "outfiles/outfile"
+<infiles/basic.txt cat -e | nonexistingcommand >outfiles/outfile
+
+./pipex "infiles/basic.txt" "cat -e" "cat -nonexistingflag" "outfiles/outfile"
+<infiles/basic.txt cat -e | cat -nonexistingflag >outfiles/outfile
+
+todo de https://github.com/michmos/42_pipex_tester

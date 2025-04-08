@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:29:46 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/04/02 19:31:46 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:00:00 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	ft_check_argv(int argc, char **argv)
 		ft_exit("no such file or directory\npermission denied\n", 1);
 	if (access(argv[1], O_RDONLY) == -1)
 		ft_putstr_fd("no such file or directory\n", 2);
+	if (access(argv[1], F_OK) == 0 && access(argv[1], R_OK) == -1)
+		ft_exit("permission denied\n", 0);
 	if (access(argv[4], W_OK) == -1)
 		ft_putstr_fd("permission denied\n", 2);
 	if (!argv[2][0] && !argv[3][0])
